@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息台 · k1体育 知识库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1f2a3a;
+            line-height: 1.6;
+        }
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 深色头图 */
+        .hero {
+            background: linear-gradient(145deg, #0f1724 0%, #1c2838 100%);
+            color: #eef3f9;
+            padding: 60px 20px 55px;
+            border-radius: 0 0 36px 36px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: 2.4rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+        .hero .sub {
+            font-size: 1.1rem;
+            opacity: 0.75;
+            max-width: 620px;
+        }
+        .hero .badge {
+            display: inline-block;
+            background: #2d9cdb;
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 4px 14px;
+            border-radius: 30px;
+            margin-top: 18px;
+            letter-spacing: 0.3px;
+        }
+
+        /* 强调色 */
+        .accent-link {
+            color: #206ca8;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.2s, color 0.2s;
+        }
+        .accent-link:hover {
+            color: #0f4b7a;
+            border-bottom-color: #206ca8;
+        }
+
+        /* 目录感布局：卡片网格 */
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 36px 0 30px;
+        }
+        .dir-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 24px 20px 22px;
+            box-shadow: 0 2px 10px rgba(0,20,40,0.04);
+            transition: box-shadow 0.25s, transform 0.15s;
+            border: 1px solid #eef2f7;
+        }
+        .dir-card:hover {
+            box-shadow: 0 8px 22px rgba(0,30,60,0.08);
+            transform: translateY(-3px);
+        }
+        .dir-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #13273e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .dir-card p {
+            font-size: 0.95rem;
+            color: #314a60;
+            margin-bottom: 10px;
+        }
+        .dir-card .meta {
+            font-size: 0.82rem;
+            color: #6e818f;
+            border-top: 1px solid #eef2f6;
+            padding-top: 10px;
+            margin-top: 6px;
+        }
+
+        /* 说明区 + 提示区 混合 */
+        .info-panel {
+            background: #ffffff;
+            border-radius: 22px;
+            padding: 28px 26px;
+            margin: 30px 0 28px;
+            box-shadow: 0 2px 12px rgba(0,20,40,0.03);
+            border: 1px solid #eaeef3;
+        }
+        .info-panel h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #102433;
+            margin-bottom: 12px;
+        }
+        .info-panel .hint {
+            background: #f0f5fe;
+            border-left: 4px solid #2d9cdb;
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin: 16px 0;
+            font-size: 0.95rem;
+            color: #1d3952;
+        }
+        .info-panel ul {
+            list-style: none;
+            padding: 0;
+        }
+        .info-panel li {
+            padding: 8px 0 8px 28px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%232d9cdb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>') left center no-repeat;
+            background-size: 16px;
+            color: #1f2f42;
+        }
+        .info-panel li strong {
+            color: #134a75;
+        }
+
+        /* FAQ摘要区 */
+        .faq-mini {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px 30px;
+            margin: 28px 0 18px;
+            padding: 18px 0;
+            border-top: 1px solid #dde3ea;
+        }
+        .faq-item {
+            flex: 1 1 200px;
+        }
+        .faq-item .q {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #1f3040;
+        }
+        .faq-item .a {
+            font-size: 0.9rem;
+            color: #425a70;
+            margin-top: 4px;
+        }
+
+        /* 相关信息区 */
+        .related {
+            background: #e8edf4;
+            border-radius: 22px;
+            padding: 24px 26px;
+            margin: 28px 0 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .related p {
+            font-size: 0.98rem;
+            color: #1b3147;
+            margin: 0;
+        }
+        .related .tag {
+            background: #ffffffcc;
+            backdrop-filter: blur(2px);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #1c3c5c;
+            border: 1px solid #cad3df;
+        }
+
+        /* 底部 */
+        .footer {
+            border-top: 1px solid #dae0e8;
+            padding: 28px 0 32px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #536b7e;
+            text-align: center;
+        }
+        .footer span {
+            opacity: 0.5;
+        }
+
+        /* 响应式 */
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 1.9rem; }
+            .hero { padding: 40px 16px 40px; }
+            .directory-grid { grid-template-columns: 1fr; gap: 18px; }
+            .info-panel { padding: 20px 16px; }
+            .related { flex-direction: column; align-items: flex-start; gap: 12px; }
+        }
+
+        /* 再次访问提示 */
+        .return-note {
+            font-size: 0.95rem;
+            background: #f9fbfd;
+            border-radius: 18px;
+            padding: 14px 20px;
+            margin: 20px 0 0;
+            border: 1px solid #e2e9f1;
+            color: #1d3249;
+        }
+        .return-note i {
+            font-style: normal;
+            background: #dce7f4;
+            padding: 0 8px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+    <!-- 深色头图 -->
+    <div class="hero">
+        <h1>知识库 · 持续入口</h1>
+        <div class="sub">
+            面向再次访问者与长期关注者：<strong>k1体育</strong> 信息索引、动态备忘与相关参考。
+        </div>
+        <div class="badge">📌 收藏 · 回看 · 更新</div>
+    </div>
+
+    <!-- 目录感卡片区 -->
+    <div class="directory-grid">
+        <div class="dir-card">
+            <h3>📋 平台概述</h3>
+            <p>围绕 <a href="https://space-k1sport.com" class="accent-link">k1体育</a> 整合的结构化说明，包括服务定位、内容组织方式与常用路径。</p>
+            <div class="meta">上次整理 · 近期更新</div>
+        </div>
+        <div class="dir-card">
+            <h3>🔖 收藏与回访</h3>
+            <p>若希望保持访问连贯性，建议将 <strong>k1体育</strong> 加入浏览器书签。通过固定入口可减少重复检索，便于查阅后续变化。</p>
+            <div class="meta">再次访问效率 · 书签提示</div>
+        </div>
+        <div class="dir-card">
+            <h3>📡 关注动态</h3>
+            <p>持续关注 <strong>k1体育</strong> 相关资讯、功能迭代或内容补充。本知识库页面会配合实际情况做同步维护。</p>
+            <div class="meta">更新参考 · 信息源提醒</div>
+        </div>
+        <div class="dir-card">
+            <h3>🧩 关联参考</h3>
+            <p>术语说明、使用场景以及常见问题摘要（部分收录于下方 FAQ 区）。可作为背景理解材料。</p>
+            <div class="meta">扩展阅读 · 上下文补充</div>
+        </div>
+    </div>
+
+    <!-- 说明区 + 提示区融合 -->
+    <div class="info-panel">
+        <h2>▎再次访问与持续关注</h2>
+        <p>对于已经接触过 <strong>k1体育</strong> 的用户，再次访问的关键在于保持入口稳定、信息连贯。以下说明围绕收藏、重新定位与后续接触展开。</p>
+
+        <div class="hint">
+            ⚡ 提示：如需快速返回，建议将 <a href="https://space-k1sport.com" class="accent-link">k1体育</a> 设为浏览器首页或书签栏常驻链接。页面结构可能会随内容积累而调整，但主站地址固定。
+        </div>
+
+        <ul>
+            <li><strong>收藏方法</strong> — 使用浏览器书签（Ctrl+D / Cmd+D）或收藏夹保存地址，命名时可加入“k1 索引”等标识便于区分。</li>
+            <li><strong>再次访问场景</strong> — 查阅历史介绍、了解最新分类、确认之前记录的信息是否更新。</li>
+            <li><strong>关注节奏</strong> — 不需要高频刷新，但每隔一段时间回访可获取补充内容或调整后的说明。</li>
+            <li><strong>信息一致性</strong> — 本知识库页面与主站保持间接关联，不代表实时镜像，请以 <strong>k1体育</strong> 实际显示为准。</li>
+        </ul>
+    </div>
+
+    <!-- FAQ 摘要区 -->
+    <div style="margin: 30px 0 10px;">
+        <h2 style="font-size: 1.3rem; font-weight: 600; color: #102433;">▎FAQ 摘要 · 快速参考</h2>
+    </div>
+    <div class="faq-mini">
+        <div class="faq-item">
+            <div class="q">如何找到之前的页面？</div>
+            <div class="a">检查书签或历史记录。若使用 <strong>k1体育</strong> 直接导航，首页通常保留主要分类入口。</div>
+        </div>
+        <div class="faq-item">
+            <div class="q">内容会频繁改动吗？</div>
+            <div class="a">结构更新不频繁，但说明区域和参考条目可能按需调整。再次访问时留意日期标记。</div>
+        </div>
+        <div class="faq-item">
+            <div class="q">与主站的关系？</div>
+            <div class="a">本页为独立知识库页面，通过 <a href="https://space-k1sport.com" class="accent-link">k1体育</a> 建立连接，不替代主站功能。</div>
+        </div>
+        <div class="faq-item">
+            <div class="q">能否提供订阅或通知？</div>
+            <div class="a">目前无主动推送。建议周期性回访或利用浏览器“查看网页更新”类扩展进行检测。</div>
+        </div>
+    </div>
+
+    <!-- 相关信息区 -->
+    <div class="related">
+        <p>📎 相关信息 · 包括术语说明、访问建议、上下文参考。部分条目由社区或维护者整理。</p>
+        <span class="tag">#k1体育 #知识库 #持续关注</span>
+    </div>
+
+    <!-- 再次访问提示小条 -->
+    <div class="return-note">
+        <i>🔄</i> 若这是你再次访问此页，建议留意右上角书签栏是否已包含 <a href="https://space-k1sport.com" class="accent-link">k1体育</a>。如有需要，可重新固定链接。
+    </div>
+
+    <!-- 底部 -->
+    <div class="footer">
+        <span>知识库页面 · 仅供信息索引与回顾</span><br>
+        主站链接：<a href="https://space-k1sport.com" class="accent-link">k1体育</a> &nbsp;·&nbsp; 内容不定期校准
+    </div>
+</div>
+
+</body>
+</html>
